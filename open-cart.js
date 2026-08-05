@@ -183,6 +183,24 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   
   const page = context.pages().length > 0 ? context.pages()[0] : await context.newPage();
   
+  // Close any additional default blank tabs to keep the user's view clean and focused
+  if (context.pages().length > 1) {
+    const pages = context.pages();
+    for (let i = 1; i < pages.length; i++) {
+      try {
+        await pages[i].close();
+      } catch (e) {
+        // Ignore errors closing inactive pages
+      }
+    }
+  }
+  
+  try {
+    await page.bringToFront();
+  } catch (e) {
+    // Ignore bringToFront errors
+  }
+  
   // Step 1: Navigate directly to the login page first to avoid triggering Cloudflare Turnstile
   console.log('Navigating directly to login page...');
   await page.goto('https://mcstaging.concrete2you.com/customer/account/login/', { waitUntil: 'domcontentloaded', timeout: 60000 });
