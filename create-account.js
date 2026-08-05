@@ -201,7 +201,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     await page.waitForSelector('#firstname', { timeout: 15000 });
     await page.fill('#firstname', 'Ilfas');
     await page.fill('#lastname', 'Mansuri');
-    await page.fill('#email_address', 'ilfas.mansuri+11@bytestechnolab.com');
+    await page.fill('#email_address', 'ilfas.mansuri+12@bytestechnolab.com');
     await page.fill('#password', 'Smart@123');
     await page.fill('#password-confirmation', 'Smart@123');
   } catch (err) {
