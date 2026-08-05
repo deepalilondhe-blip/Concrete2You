@@ -162,7 +162,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       userAgent: chromeUserAgent,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`
+        `--load-extension=${pathToExtension}`,
+        '--disable-blink-features=AutomationControlled'
       ],
       viewport: { width: 1280, height: 800 }
     });
@@ -172,7 +173,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     
     const browser = await chromium.launch({ 
       headless: true,
-      channel: 'chrome'
+      channel: 'chrome',
+      args: ['--disable-blink-features=AutomationControlled']
     });
     context = await browser.newContext({
       userAgent: chromeUserAgent,

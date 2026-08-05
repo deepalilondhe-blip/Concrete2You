@@ -47,6 +47,11 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     
+    // Hides Playwright automation indicators to bypass Cloudflare Turnstile
+    launchOptions: {
+      args: ['--disable-blink-features=AutomationControlled']
+    },
+    
     // Load session state if it exists
     storageState: require('fs').existsSync('playwright/.auth/user.json') ? 'playwright/.auth/user.json' : undefined,
   },
