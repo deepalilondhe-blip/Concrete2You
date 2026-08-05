@@ -233,7 +233,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   
   // Step 4: Submit login form
   console.log('Clicking the yellow Sign In button...');
-  const loginBtn = page.locator('#send2');
+  const loginBtn = page.locator('#send2').first();
   await loginBtn.click();
   
   // Wait for login processing and redirect

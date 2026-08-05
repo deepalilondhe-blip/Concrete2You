@@ -164,7 +164,7 @@ test('Login to Concrete2You', async ({ page }) => {
   
   // Step 4: Submit login form
   console.log('Submitting login form...');
-  await page.click('#send2');
+  await page.locator('#send2').first().click();
   
   await page.waitForTimeout(7000);
   await handleCloudflare(page, 'Post-Login Page');
