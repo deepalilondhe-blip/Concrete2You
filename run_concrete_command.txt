@@ -1,0 +1,22 @@
+# Concrete2You Playwright Automation Commands
+
+To run the automation scripts, open your terminal in the project directory (c:/Concrete2You) and run the following commands:
+
+## 1. Run Headed Browser Automation (Interactive)
+This launches Google Chrome in visible/headed mode on your machine to load the cart, open Cookie Settings, check all cookie checkboxes, log in with credentials, and then navigate to the cart page:
+```bash
+npm run open
+```
+
+## 2. Capture and Save Login Session State (For CAPTCHA Bypass)
+To run your headless test suite without ever hitting Cloudflare Turnstile blocks, capture your logged-in cookies once using this headed command:
+```bash
+npm run save-auth
+```
+*Note: A Chrome window will open. Simply check the Turnstile checkbox manually to verify you are human, and the script will automatically capture the session state to `playwright/.auth/user.json`.*
+
+## 3. Run Headless Playwright Test Suite
+Once the authentication session state is saved, you can run all tests completely headlessly in the background:
+```bash
+npm run test
+```
