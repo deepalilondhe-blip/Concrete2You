@@ -20,3 +20,15 @@ Once the authentication session state is saved, you can run all tests completely
 ```bash
 npm run test
 ```
+
+## 4. Run Headed Account Creation (Interactive)
+This launches Google Chrome in visible/headed mode on your machine to load the customer registration page, open Cookie Settings, check all cookie checkboxes, fill in the registration details, and submit the form to create a new user account:
+```bash
+npm run create-account
+```
+
+## 5. Run Headless Account Creation Test Suite
+To run the registration validation test headlessly in the background:
+```bash
+npm run test-register
+```
