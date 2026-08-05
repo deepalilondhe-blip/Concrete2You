@@ -178,19 +178,9 @@ test('Login to Concrete2You', async ({ page }) => {
   // Assert that we have logged in successfully
   expect(page.url()).not.toContain('/customer/account/login/');
   
-  // Step 5: Navigate to checkout cart page
-  console.log('Navigating to checkout cart page...');
-  await page.goto('/checkout/cart/', { waitUntil: 'domcontentloaded', timeout: 60000 });
-  await page.waitForTimeout(3000);
+  // Handle Cookie settings on My Account page step-by-step (if they appear)
+  await checkAllCookiesStepByStep(page, 'My Account page');
   
-  // Handle Cookie settings on cart page step-by-step (if they appear)
-  await checkAllCookiesStepByStep(page, 'Cart page');
-  
-  console.log(`Final Cart URL: ${page.url()}`);
-  console.log(`Final Cart Title: "${await page.title()}"`);
-  
-  await page.screenshot({ path: 'tests/cart_logged_in.png' });
-  console.log('Saved cart_logged_in.png');
-  
-  expect(page.url()).toContain('/checkout/cart/');
+  // Assert that we have logged in successfully and are on the customer account dashboard
+  expect(page.url()).toContain('/customer/account/');
 });

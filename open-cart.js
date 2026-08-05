@@ -247,26 +247,15 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   await page.screenshot({ path: 'after_login.png' });
   console.log('Saved after_login.png screenshot');
   
-  // Step 5: Navigate to checkout cart page
-  console.log('Navigating to checkout cart page...');
-  await page.goto('https://mcstaging.concrete2you.com/checkout/cart/', { waitUntil: 'domcontentloaded', timeout: 60000 });
-  await page.waitForTimeout(3000);
-  
-  // Handle Cookie settings on cart page step-by-step (if they appear)
-  await checkAllCookiesStepByStep(page, 'Cart page');
-  
-  console.log(`Final Cart URL: ${page.url()}`);
-  console.log(`Final Cart Title: "${await page.title()}"`);
-  
-  await page.screenshot({ path: 'cart_logged_in.png' });
-  console.log('Saved cart_logged_in.png screenshot');
+  // Handle Cookie settings on My Account page step-by-step (if they appear)
+  await checkAllCookiesStepByStep(page, 'My Account page');
   
   if (isHeadless) {
     console.log('Running in headless mode. Closing browser.');
     await context.close();
   } else {
     console.log('\n======================================================');
-    console.log('Login automation completed! Keeping the browser open.');
+    console.log('Login automation completed on My Account page! Keeping the browser open.');
     console.log('Close the browser window or press Ctrl+C in your terminal to exit.');
     console.log('======================================================\n');
     await new Promise(resolve => page.on('close', resolve));
