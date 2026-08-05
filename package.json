@@ -1,0 +1,19 @@
+{
+  "name": "concrete2you",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "open": "node open-cart.js",
+    "test": "npx playwright test",
+    "save-auth": "npx playwright test tests/auth.setup.js --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.1.2"
+  }
+}
