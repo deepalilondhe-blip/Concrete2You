@@ -319,14 +319,27 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       
       // Press ArrowUp and then ArrowDown to trigger the spinner control state change listeners
       await page.keyboard.press('ArrowUp');
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
       await page.keyboard.press('ArrowDown');
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(500);
       
-      // Double check by dispatching standard events
+      // Force programmatic value injection & dispatch all possible validation events
+      // to ensure the form updates even if the headed browser window loses OS focus.
+      console.log('Dispatching all validation events programmatically...');
       await qtyInput.evaluate(el => {
-        el.dispatchEvent(new Event('input', { bubbles: true }));
-        el.dispatchEvent(new Event('change', { bubbles: true }));
+        el.value = '2';
+        const events = ['input', 'change', 'keydown', 'keypress', 'keyup', 'blur', 'focusout'];
+        events.forEach(name => {
+          const event = new Event(name, { bubbles: true, cancelable: true });
+          el.dispatchEvent(event);
+        });
+        
+        // Also trigger jQuery validation if present
+        try {
+          if (window.jQuery && window.jQuery(el).valid) {
+            window.jQuery(el).valid();
+          }
+        } catch (e) {}
       });
       await page.waitForTimeout(1000);
     }
