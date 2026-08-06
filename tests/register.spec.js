@@ -146,13 +146,17 @@ test('Register a new account on Concrete2You', async ({ page }) => {
   // Step 2: Handle Cookie settings step-by-step
   await checkAllCookiesStepByStep(page, 'Registration page');
   
+  // Generate a unique email using a timestamp on each execution to prevent "already registered" errors
+  const uniqueEmail = `ilfas.mansuri+${Date.now()}@bytestechnolab.com`;
+  
   // Step 3: Fill registration details
   console.log('Filling in registration details...');
   try {
     await page.waitForSelector('#firstname', { timeout: 15000 });
     await page.fill('#firstname', 'Ilfas');
     await page.fill('#lastname', 'Mansuri');
-    await page.fill('#email_address', 'ilfas.mansuri+12@bytestechnolab.com');
+    console.log(`Using unique email: ${uniqueEmail}`);
+    await page.fill('#email_address', uniqueEmail);
     await page.fill('#password', 'Smart@123');
     await page.fill('#password-confirmation', 'Smart@123');
   } catch (err) {
