@@ -1,34 +1,48 @@
-# Run headed browser login automation:
-npm run open
+# =========================================================================
+# CONCRETE2YOU - AUTOMATION RUN COMMANDS LIST
+# =========================================================================
 
-# Save login session cookies (optional, for CAPTCHA bypass):
-npm run save-auth
+# 1. LOGIN
+# Run headed browser login automation (ends on My Account page):
+npm run open
 
 # Run headless login test suite:
 npm run test
 
-# Run headed browser account creation automation:
+
+# 2. CREATE ACCOUNT
+# Run headed browser account creation automation (registers unique 2-digit serial emails):
 npm run create-account
 
 # Run headless account creation test suite:
 npm run test-register
 
-# Run headed browser Login with Checkout automation (logs in, adds default concrete mix to cart, resolves shipping dates, and proceeds to checkout details screen):
+
+# 3. LOGIN WITH CHECKOUT
+# Run headed browser Login with Checkout automation (logs in, adds mix, inputs postcode, resolves dates, ends on checkout):
 npm run checkout
 
 # Run headless Login with Checkout test suite:
 npm run test-checkout
 
-# Run headed browser concrete product selection & cart addition automation:
+
+# 4. CONCRETE PRODUCT SELECTION & BASKET ADDITION
+# Run headed browser concrete product selection automation (navigates menus, checks postcode, configures dynamic inputs, adds to basket):
 npm run add-concrete
 
 # Run headless concrete product selection test suite:
 npm run test-add-concrete
 
-# Git pull latest changes from GitHub:
+
+# =========================================================================
+# HELPER UTILITIES
+# =========================================================================
+
+# Save login session cookies manually (useful for manual CAPTCHA bypass):
+npm run save-auth
+
+# Pull latest automation code updates from GitHub:
 git pull
 
-# Git push your manual code changes to GitHub:
+# Commit and push your local code changes to GitHub:
 git add . ; git commit -m "my updates" ; git push
-
-
