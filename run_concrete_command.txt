@@ -18,7 +18,7 @@ npm run create-account
 npm run test-register
 
 
-# 3. LOGIN WITH CHECKOUT
+# 3. LOGIN WITH CHECKOUT ( With login checkout )
 # Run headed browser Login with Checkout automation (logs in, adds mix, inputs postcode, resolves dates, ends on checkout):
 npm run checkout
 
