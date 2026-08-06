@@ -120,21 +120,9 @@ test('Execute Guest Checkout Flow without Login', async ({ page }) => {
   // Set execution timeout to 180s to allow navigation + configuration steps
   test.setTimeout(180000);
   
-  // Generate unique sequential email for guest checkout
-  let numericId = 10;
-  const counterFile = path.resolve(__dirname, '../tmp/last_numeric_id.txt');
-  if (fs.existsSync(counterFile)) {
-    try {
-      const saved = fs.readFileSync(counterFile, 'utf8').trim();
-      const parsed = parseInt(saved, 10);
-      if (!isNaN(parsed) && parsed >= 10 && parsed < 99) {
-        numericId = parsed + 1;
-      }
-    } catch (e) {}
-  }
-  fs.writeFileSync(counterFile, String(numericId), 'utf8');
-  const guestEmail = `ilfas.mansuri+guest${numericId}@bytestechnolab.com`;
-  console.log(`Generated unique guest email: ${guestEmail}`);
+  // Use static email for guest checkout
+  const guestEmail = 'ilfas.mansuri+10@bytestechnolab.com';
+  console.log(`Using static guest email: ${guestEmail}`);
   
   // Navigate directly to Shed Bases Category
   console.log('Navigating directly to Shed Bases application page...');
