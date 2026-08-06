@@ -13,10 +13,10 @@ npm run create-account
 # Run headless account creation test suite:
 npm run test-register
 
-# Run headed browser checkout automation:
+# Run headed browser Login with Checkout automation (logs in, adds default concrete mix to cart, resolves shipping dates, and proceeds to checkout details screen):
 npm run checkout
 
-# Run headless checkout test suite:
+# Run headless Login with Checkout test suite:
 npm run test-checkout
 
 # Run headed browser concrete product selection & cart addition automation:
