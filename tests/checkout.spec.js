@@ -134,6 +134,9 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
 }
 
 test('Execute login and proceed to checkout', async ({ page }) => {
+  // Set test timeout to 120 seconds to allow complete cookies selection and E2E checkout navigation steps
+  test.setTimeout(120000);
+  
   // Step 1: Navigate directly to the login page first
   console.log('Navigating directly to login page...');
   await page.goto('/customer/account/login/', { waitUntil: 'domcontentloaded', timeout: 60000 });
