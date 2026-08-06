@@ -282,13 +282,6 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   // Step 6: Select any dropdown options and check quantity
   console.log('Checking for product configuration options...');
   try {
-    // Fill quantity (make sure it has a valid value, e.g. 2 cubic meters)
-    const qtyInput = page.locator('#qty').first();
-    if (await qtyInput.isVisible()) {
-      await qtyInput.fill('2');
-      await page.waitForTimeout(500);
-    }
-    
     // Select the first available option in each attributes/options dropdown that loads
     const dropdowns = page.locator('select.super-attribute-select, select[id^="attribute"], select[name^="options"], select.select');
     const dropdownCount = await dropdowns.count();
@@ -306,6 +299,17 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
         await drop.selectOption({ index: 1 });
         await page.waitForTimeout(1000);
       }
+    }
+    
+    // Fill quantity last (to prevent dynamic dropdown AJAX refreshes from clearing the value)
+    const qtyInput = page.locator('#qty').first();
+    if (await qtyInput.isVisible()) {
+      console.log('Setting quantity volume to 2...');
+      await qtyInput.click();
+      await qtyInput.fill('2');
+      // Trigger change event to ensure page registers the value
+      await qtyInput.evaluate(el => el.dispatchEvent(new Event('change', { bubbles: true })));
+      await page.waitForTimeout(1000);
     }
   } catch (err) {
     console.warn('Could not populate product configuration options:', err.message);

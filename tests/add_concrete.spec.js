@@ -204,12 +204,6 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
   // Step 6: Select any dropdown options and check quantity
   console.log('Checking for product configuration options...');
   try {
-    const qtyInput = page.locator('#qty').first();
-    if (await qtyInput.isVisible()) {
-      await qtyInput.fill('2');
-      await page.waitForTimeout(500);
-    }
-    
     const dropdowns = page.locator('select.super-attribute-select, select[id^="attribute"], select[name^="options"], select.select');
     const dropdownCount = await dropdowns.count();
     
@@ -223,6 +217,15 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
         await drop.selectOption({ index: 1 });
         await page.waitForTimeout(1000);
       }
+    }
+    
+    // Fill quantity last (to prevent dynamic dropdown AJAX refreshes from clearing the value)
+    const qtyInput = page.locator('#qty').first();
+    if (await qtyInput.isVisible()) {
+      await qtyInput.click();
+      await qtyInput.fill('2');
+      await qtyInput.evaluate(el => el.dispatchEvent(new Event('change', { bubbles: true })));
+      await page.waitForTimeout(1000);
     }
   } catch (err) {
     console.warn('Could not populate options:', err.message);
