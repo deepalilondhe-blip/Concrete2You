@@ -34,7 +34,7 @@ npm run add-concrete
 npm run test-add-concrete
 
 
-# 5. WITHOUT LOGIN CHECKOUT
+# 5. WITHOUT LOGIN CHECKOUT ( Without login checkout )
 # Run headed browser Without Login Checkout (Guest Checkout) automation (adds product, proceeds as guest, enters shipping details, ends on payment):
 npm run checkout-guest
 
