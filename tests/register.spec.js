@@ -133,7 +133,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   console.log('Cookie preferences successfully updated step-by-step.');
 }
 
-test('Register a new account on Concrete2You', async ({ page }) => {
+test('Register a new account on Concrete2You', async ({ page }, testInfo) => {
   // Step 1: Navigate directly to the account creation page
   console.log('Navigating directly to account creation page...');
   await page.goto('/customer/account/create/', { waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -192,7 +192,11 @@ test('Register a new account on Concrete2You', async ({ page }) => {
     throw err;
   }
   
-  await page.screenshot({ path: 'tests/before_registration.png' });
+  const beforeImg = await page.screenshot({ path: 'tests/before_registration.png' });
+  await testInfo.attach('before_registration', {
+    body: beforeImg,
+    contentType: 'image/png'
+  });
   console.log('Saved before_registration.png');
   
   // Step 4: Click register button
@@ -208,7 +212,11 @@ test('Register a new account on Concrete2You', async ({ page }) => {
   console.log(`Post-registration URL: ${page.url()}`);
   console.log(`Post-registration Title: "${await page.title()}"`);
   
-  await page.screenshot({ path: 'tests/after_registration.png' });
+  const afterImg = await page.screenshot({ path: 'tests/after_registration.png' });
+  await testInfo.attach('after_registration', {
+    body: afterImg,
+    contentType: 'image/png'
+  });
   console.log('Saved after_registration.png');
   
   // Verify we redirected successfully away from create page (should go to account dashboard /customer/account/)

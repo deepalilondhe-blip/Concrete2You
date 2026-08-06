@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('Verify Concrete2You Checkout Cart page loads', async ({ page }) => {
+test('Verify Concrete2You Checkout Cart page loads', async ({ page }, testInfo) => {
   console.log('Navigating to checkout cart page...');
   
   // Go to the cart page
@@ -43,7 +43,11 @@ test('Verify Concrete2You Checkout Cart page loads', async ({ page }) => {
   console.log(`Final Page Title: ${finalTitle}`);
   
   // Take a screenshot of the loaded page state
-  await page.screenshot({ path: 'tests/cart_page_screenshot.png', fullPage: true });
+  const screenshot = await page.screenshot({ path: 'tests/cart_page_screenshot.png', fullPage: true });
+  await testInfo.attach('cart_page_screenshot', {
+    body: screenshot,
+    contentType: 'image/png'
+  });
   console.log('Screenshot saved to tests/cart_page_screenshot.png');
 
   // Let's assert on the body content to verify if we are indeed on a checkout/cart page.
