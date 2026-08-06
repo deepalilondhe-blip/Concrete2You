@@ -322,7 +322,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     }
     
     // Fill quantity last (to prevent dynamic dropdown AJAX refreshes from clearing the value)
-    const qtyInput = page.locator('#qty').first();
+    // Target the visible #qty element (as the staging page contains duplicate #qty elements)
+    const qtyInput = page.locator('input#qty:visible, input[name="qty"]:visible').first();
     if (await qtyInput.isVisible()) {
       console.log('Interacting with quantity input using native keyboard and spinner events...');
       await qtyInput.click();

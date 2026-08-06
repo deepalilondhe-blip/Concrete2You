@@ -240,7 +240,8 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
     }
     
     // Fill quantity last (to prevent dynamic dropdown AJAX refreshes from clearing the value)
-    const qtyInput = page.locator('#qty').first();
+    // Target the visible #qty element (as the staging page contains duplicate #qty elements)
+    const qtyInput = page.locator('input#qty:visible, input[name="qty"]:visible').first();
     if (await qtyInput.isVisible()) {
       await qtyInput.click();
       await qtyInput.focus();
