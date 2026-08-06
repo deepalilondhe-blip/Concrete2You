@@ -223,8 +223,28 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
     const qtyInput = page.locator('#qty').first();
     if (await qtyInput.isVisible()) {
       await qtyInput.click();
-      await qtyInput.fill('2');
-      await qtyInput.evaluate(el => el.dispatchEvent(new Event('change', { bubbles: true })));
+      await qtyInput.focus();
+      
+      // Select any existing text and clear it
+      await page.keyboard.press('Control+A');
+      await page.keyboard.press('Backspace');
+      await page.waitForTimeout(500);
+      
+      // Type the number 2 natively
+      await page.keyboard.type('2');
+      await page.waitForTimeout(500);
+      
+      // Press ArrowUp and then ArrowDown to trigger the spinner control state change listeners
+      await page.keyboard.press('ArrowUp');
+      await page.waitForTimeout(1000);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForTimeout(1000);
+      
+      // Double check by dispatching standard events
+      await qtyInput.evaluate(el => {
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      });
       await page.waitForTimeout(1000);
     }
   } catch (err) {
