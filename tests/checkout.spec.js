@@ -133,7 +133,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   console.log('Cookie preferences successfully updated step-by-step.');
 }
 
-test('Execute login and proceed to checkout', async ({ page }) => {
+test('Execute login and proceed to checkout', async ({ page }, testInfo) => {
   // Set test timeout to 120 seconds to allow complete cookies selection and E2E checkout navigation steps
   test.setTimeout(120000);
   
@@ -288,7 +288,11 @@ test('Execute login and proceed to checkout', async ({ page }) => {
     await handleCloudflare(page, 'Checkout Payment Step');
   }
   
-  await page.screenshot({ path: 'tests/checkout_payment.png' });
+  const screenshot = await page.screenshot({ path: 'tests/checkout_payment.png' });
+  await testInfo.attach('checkout_payment', {
+    body: screenshot,
+    contentType: 'image/png'
+  });
   
   console.log(`Final Page URL reached: ${page.url()}`);
   expect(page.url()).toContain('/checkout/');

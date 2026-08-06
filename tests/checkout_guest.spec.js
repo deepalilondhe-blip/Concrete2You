@@ -116,7 +116,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   console.log('Cookie preferences successfully updated step-by-step.');
 }
 
-test('Execute Guest Checkout Flow without Login', async ({ page }) => {
+test('Execute Guest Checkout Flow without Login', async ({ page }, testInfo) => {
   // Set execution timeout to 180s to allow navigation + configuration steps
   test.setTimeout(180000);
   
@@ -262,7 +262,11 @@ test('Execute Guest Checkout Flow without Login', async ({ page }) => {
   await page.waitForTimeout(10000);
   await handleCloudflare(page, 'Payment Page');
   
-  await page.screenshot({ path: 'tests/guest_checkout_success.png', fullPage: true });
+  const screenshot = await page.screenshot({ path: 'tests/guest_checkout_success.png', fullPage: true });
+  await testInfo.attach('guest_checkout_success', {
+    body: screenshot,
+    contentType: 'image/png'
+  });
   console.log('Success! Saved tests/guest_checkout_success.png screenshot.');
   
   expect(page.url()).toContain('#payment');

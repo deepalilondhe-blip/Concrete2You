@@ -36,16 +36,16 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://mcstaging.concrete2you.com',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* Collect trace for every run to show timeline and screenshots in report */
+    trace: 'on',
     
     /* Run in headless mode since environment doesn't support headed UI launch */
     headless: true,
     
     viewport: { width: 1280, height: 800 },
     ignoreHTTPSErrors: true,
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: 'on',
+    video: 'on',
     
     // Hides Playwright automation indicators to bypass Cloudflare Turnstile
     launchOptions: {

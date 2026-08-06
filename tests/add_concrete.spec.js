@@ -143,7 +143,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   console.log('Cookie preferences successfully updated step-by-step.');
 }
 
-test('Navigate category and add concrete to basket', async ({ page }) => {
+test('Navigate category and add concrete to basket', async ({ page }, testInfo) => {
   // Set execution timeout to 180s to allow navigation + configuration steps
   test.setTimeout(180000);
   
@@ -299,7 +299,11 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
   await handleCloudflare(page, 'Basket Details Page');
   await checkAllCookiesStepByStep(page, 'Basket Details Page');
   
-  await page.screenshot({ path: 'tests/product_added_to_basket.png' });
+  const screenshot = await page.screenshot({ path: 'tests/product_added_to_basket.png' });
+  await testInfo.attach('product_added_to_basket', {
+    body: screenshot,
+    contentType: 'image/png'
+  });
   console.log('Success! Saved basket details page to tests/product_added_to_basket.png.');
   
   // Verify we have items in the cart or success is shown
