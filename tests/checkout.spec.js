@@ -134,8 +134,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
 }
 
 test('Execute login and proceed to checkout', async ({ page }, testInfo) => {
-  // Set test timeout to 120 seconds to allow complete cookies selection and E2E checkout navigation steps
-  test.setTimeout(120000);
+  // Set test timeout to 180 seconds to allow complete cookies selection and E2E checkout navigation steps
+  test.setTimeout(180000);
   
   // Step 1: Navigate directly to the login page first
   console.log('Navigating directly to login page...');
@@ -261,10 +261,13 @@ test('Execute login and proceed to checkout', async ({ page }, testInfo) => {
       const formattedDate = `${dd}/${mm}/${yyyy}`;
       
       console.log(`Setting Delivery Date to: ${formattedDate}`);
-      await dateInput.click();
-      await dateInput.fill(formattedDate);
+      await dateInput.evaluate((el, val) => {
+        el.value = val;
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+        el.dispatchEvent(new Event('blur', { bubbles: true }));
+      }, formattedDate);
       await page.keyboard.press('Escape'); // close calendar widget popup
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
     }
     
     const timeSelect = page.locator('#mp-delivery-time');

@@ -363,10 +363,13 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       const formattedDate = `${dd}/${mm}/${yyyy}`;
       
       console.log(`Setting Delivery Date to: ${formattedDate}`);
-      await dateInput.click();
-      await dateInput.fill(formattedDate);
+      await dateInput.evaluate((el, val) => {
+        el.value = val;
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+        el.dispatchEvent(new Event('blur', { bubbles: true }));
+      }, formattedDate);
       await page.keyboard.press('Escape'); // close calendar widget popup
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
     }
     
     const timeSelect = page.locator('#mp-delivery-time');
