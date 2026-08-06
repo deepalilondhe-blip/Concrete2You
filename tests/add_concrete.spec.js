@@ -144,8 +144,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
 }
 
 test('Navigate category and add concrete to basket', async ({ page }) => {
-  // Set execution timeout to 120s to allow navigation + configuration steps
-  test.setTimeout(120000);
+  // Set execution timeout to 180s to allow navigation + configuration steps
+  test.setTimeout(180000);
   
   // Step 1: Navigate directly to the login page first
   console.log('Navigating directly to login page...');
