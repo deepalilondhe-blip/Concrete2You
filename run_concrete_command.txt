@@ -12,3 +12,9 @@ npm run create-account
 
 # Run headless account creation test suite:
 npm run test-register
+
+# Git pull latest changes from GitHub:
+git pull
+
+# Git push your manual code changes to GitHub:
+git add . ; git commit -m "my updates" ; git push
