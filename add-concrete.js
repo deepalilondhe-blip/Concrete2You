@@ -245,7 +245,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   await handleCloudflare(page, 'Homepage');
   await checkAllCookiesStepByStep(page, 'Homepage');
   
-  // Step 3: Go to "Buy your Concrete" menu option and click "Foundations" under "Buy Concrete by Application"
+  // Step 3: Go to "Buy your Concrete" menu option and click "Shed Base" under "Buy Concrete by Application"
   console.log('Navigating the product menus...');
   try {
     // Hover over the primary "Buy your Concrete" link with a short timeout to prevent freezes
@@ -253,17 +253,17 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     await buyConcreteMenu.hover({ timeout: 3000 });
     await page.waitForTimeout(1000);
     
-    // Click on Foundations link with short timeout
-    const foundationsLink = page.locator('a.main-menu__inner-link:has-text("Foundations")').first();
-    await foundationsLink.click({ timeout: 3000 });
+    // Click on Shed Base link with short timeout
+    const shedBaseLink = page.locator('a.main-menu__inner-link:has-text("Shed Base")').first();
+    await shedBaseLink.click({ timeout: 3000 });
   } catch (err) {
-    console.log('Menu hover/click timed out or was blocked. Navigating directly to Foundations application page...');
-    await page.goto('https://mcstaging.concrete2you.com/foundation-concrete', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    console.log('Menu hover/click timed out or was blocked. Navigating directly to Shed Base application page...');
+    await page.goto('https://mcstaging.concrete2you.com/shed-bases', { waitUntil: 'domcontentloaded', timeout: 60000 });
   }
   
   await page.waitForTimeout(4000);
-  await handleCloudflare(page, 'Foundations Application Page');
-  await checkAllCookiesStepByStep(page, 'Foundations Application Page');
+  await handleCloudflare(page, 'Shed Base Application Page');
+  await checkAllCookiesStepByStep(page, 'Shed Base Application Page');
   
   await page.screenshot({ path: 'application_page.png' });
   
@@ -282,7 +282,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   console.log('Entering postcode for delivery zone check...');
   const postcodeField = page.locator('#pdp-postcode');
   if (await postcodeField.isVisible()) {
-    await postcodeField.fill('LE65 1BY');
+    await postcodeField.fill('BB5 1HU');
     await page.waitForTimeout(500);
     
     console.log('Clicking "Check Postcode" button...');
@@ -334,8 +334,8 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       await page.keyboard.press('Backspace');
       await page.waitForTimeout(500);
       
-      // Type the number 2 natively
-      await page.keyboard.type('2');
+      // Type the number 12 natively
+      await page.keyboard.type('12');
       await page.waitForTimeout(500);
       
       // Press ArrowUp and then ArrowDown to trigger the spinner control state change listeners
@@ -348,7 +348,7 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       // to ensure the form updates even if the headed browser window loses OS focus.
       console.log('Dispatching all validation events programmatically...');
       await qtyInput.evaluate(el => {
-        el.value = '2';
+        el.value = '12';
         const events = ['input', 'change', 'keydown', 'keypress', 'keyup', 'blur', 'focusout'];
         events.forEach(name => {
           const event = new Event(name, { bubbles: true, cancelable: true });
