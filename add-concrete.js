@@ -2,6 +2,22 @@ const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
+// Helper to wait for Magento loading masks and spinners to disappear
+async function waitForLoaderToDisappear(page) {
+  try {
+    const loader = page.locator('.loading-mask, .process-loading, .loader').first();
+    // Wait up to 1.5s for loader to become visible (if any)
+    try {
+      await loader.waitFor({ state: 'visible', timeout: 1500 });
+      console.log('Loader mask detected. Waiting for it to disappear...');
+      await loader.waitFor({ state: 'hidden', timeout: 15000 });
+      console.log('Loader mask disappeared.');
+    } catch (e) {
+      // Loader didn't appear within 1.5s, which is fine
+    }
+  } catch (err) {}
+}
+
 // Helper to handle Cloudflare challenges by programmatically clicking the Turnstile checkbox
 async function handleCloudflare(page, urlDescription) {
   await page.waitForTimeout(3000); // Give the page a moment to initiate the challenge
@@ -271,10 +287,12 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     
     console.log('Clicking "Check Postcode" button...');
     const checkBtn = page.locator('button.button.secondary:has-text("Check Postcode"), button:has-text("Check Postcode")').first();
-    await checkBtn.click();
+     await checkBtn.click();
     
-    console.log('Waiting for postcode verification to complete and load product options...');
-    await page.waitForTimeout(6000);
+    console.log('Waiting for postcode verification loader...');
+    await page.waitForTimeout(1500);
+    await waitForLoaderToDisappear(page);
+    await page.waitForTimeout(4000);
   }
   
   await page.screenshot({ path: 'postcode_checked.png' });
@@ -297,7 +315,9 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
       if (await drop.isVisible()) {
         console.log(`Selecting first available configuration option in dropdown ID: "${id}"...`);
         await drop.selectOption({ index: 1 });
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(1500);
+        await waitForLoaderToDisappear(page);
+        await page.waitForTimeout(2000); // Additional safety delay
       }
     }
     
