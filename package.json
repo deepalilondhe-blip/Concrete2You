@@ -8,13 +8,13 @@
     "test": "npx playwright test",
     "save-auth": "npx playwright test tests/auth.setup.js --headed",
     "create-account": "node create-account.js",
-    "test-register": "npx playwright test tests/register.spec.js",
+    "test-register": "npx playwright test tests/register.spec.js --headed",
     "checkout": "node checkout.js",
-    "test-checkout": "npx playwright test tests/checkout.spec.js",
+    "test-checkout": "npx playwright test tests/checkout.spec.js --headed",
     "add-concrete": "node add-concrete.js",
-    "test-add-concrete": "npx playwright test tests/add_concrete.spec.js",
+    "test-add-concrete": "npx playwright test tests/add_concrete.spec.js --headed",
     "checkout-guest": "node checkout-guest.js",
-    "test-checkout-guest": "npx playwright test tests/checkout_guest.spec.js"
+    "test-checkout-guest": "npx playwright test tests/checkout_guest.spec.js --headed"
   },
   "keywords": [],
   "author": "",
