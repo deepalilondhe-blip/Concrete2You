@@ -349,6 +349,36 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
     console.warn('Could not select shipping method automatically:', err.message);
   }
   
+  // Step 8.5: Handle custom Delivery Date & Time (Concrete2You specific checkout requirements)
+  console.log('Handling Delivery Date & Time fields...');
+  try {
+    const dateInput = page.locator('#mp-delivery-date');
+    if (await dateInput.count() > 0) {
+      // Calculate a future date (e.g. 7 days from now) to avoid validation blocks
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 7);
+      const dd = String(futureDate.getDate()).padStart(2, '0');
+      const mm = String(futureDate.getMonth() + 1).padStart(2, '0');
+      const yyyy = futureDate.getFullYear();
+      const formattedDate = `${dd}/${mm}/${yyyy}`;
+      
+      console.log(`Setting Delivery Date to: ${formattedDate}`);
+      await dateInput.click();
+      await dateInput.fill(formattedDate);
+      await page.keyboard.press('Escape'); // close calendar widget popup
+      await page.waitForTimeout(1000);
+    }
+    
+    const timeSelect = page.locator('#mp-delivery-time');
+    if (await timeSelect.count() > 0) {
+      console.log('Selecting first available Delivery Time slot...');
+      await timeSelect.selectOption({ index: 1 });
+      await page.waitForTimeout(1000);
+    }
+  } catch (err) {
+    console.warn('Could not select delivery date and time automatically:', err.message);
+  }
+  
   await page.screenshot({ path: 'checkout_shipping.png' });
   console.log('Saved checkout_shipping.png');
   
