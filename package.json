@@ -10,7 +10,9 @@
     "create-account": "node create-account.js",
     "test-register": "npx playwright test tests/register.spec.js",
     "checkout": "node checkout.js",
-    "test-checkout": "npx playwright test tests/checkout.spec.js"
+    "test-checkout": "npx playwright test tests/checkout.spec.js",
+    "add-concrete": "node add-concrete.js",
+    "test-add-concrete": "npx playwright test tests/add_concrete.spec.js"
   },
   "keywords": [],
   "author": "",

@@ -19,9 +19,16 @@ npm run checkout
 # Run headless checkout test suite:
 npm run test-checkout
 
+# Run headed browser concrete product selection & cart addition automation:
+npm run add-concrete
+
+# Run headless concrete product selection test suite:
+npm run test-add-concrete
+
 # Git pull latest changes from GitHub:
 git pull
 
 # Git push your manual code changes to GitHub:
 git add . ; git commit -m "my updates" ; git push
+
 
