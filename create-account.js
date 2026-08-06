@@ -215,8 +215,32 @@ async function checkAllCookiesStepByStep(page, urlDescription) {
   // Step 2: Handle Cookie settings step-by-step
   await checkAllCookiesStepByStep(page, 'Registration page');
   
-  // Generate a unique email using a timestamp on each execution to prevent "already registered" errors
-  const uniqueEmail = `ilfas.mansuri+${Date.now()}@bytestechnolab.com`;
+  // Generate a unique email with a 2-digit numeric suffix (10-99) incremented sequentially
+  const numberFilePath = path.resolve(__dirname, 'tmp/last_numeric_id.txt');
+  let numericId = 12;
+  try {
+    if (fs.existsSync(numberFilePath)) {
+      const savedNum = parseInt(fs.readFileSync(numberFilePath, 'utf8').trim(), 10);
+      if (!isNaN(savedNum) && savedNum >= 10 && savedNum <= 99) {
+        numericId = savedNum + 1;
+        if (numericId > 99) {
+          numericId = 10; // reset/loop back to 10
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Could not read last numeric ID file:', err.message);
+  }
+  
+  // Save the updated 2-digit number for the next run
+  try {
+    fs.mkdirSync(path.dirname(numberFilePath), { recursive: true });
+    fs.writeFileSync(numberFilePath, String(numericId), 'utf8');
+  } catch (err) {
+    console.warn('Could not save updated numeric ID:', err.message);
+  }
+  
+  const uniqueEmail = `ilfas.mansuri+${numericId}@bytestechnolab.com`;
   
   // Step 3: Fill registration details
   console.log('Filling in registration details...');
