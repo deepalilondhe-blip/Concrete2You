@@ -290,11 +290,17 @@ test('Navigate category and add concrete to basket', async ({ page }) => {
   const addToBasketBtn = page.locator('#product-addtocart-button, button.action.primary.tocart').first();
   await addToBasketBtn.click();
   
-  console.log('Waiting for product to be added...');
-  await page.waitForTimeout(8000);
+  console.log('Waiting for product addition processing...');
+  await page.waitForTimeout(6000);
+  
+  console.log('Navigating directly to Shopping Basket details page...');
+  await page.goto('/checkout/cart/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForTimeout(4000);
+  await handleCloudflare(page, 'Basket Details Page');
+  await checkAllCookiesStepByStep(page, 'Basket Details Page');
   
   await page.screenshot({ path: 'tests/product_added_to_basket.png' });
-  console.log('Success! Saved product_added_to_basket.png screenshot.');
+  console.log('Success! Saved basket details page to tests/product_added_to_basket.png.');
   
   // Verify we have items in the cart or success is shown
   expect(page.url()).not.toBeNull();
