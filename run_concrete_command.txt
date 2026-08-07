@@ -44,6 +44,16 @@ npm run checkout-guest
 npm run test-checkout-guest
 
 
+# 6. n8n WORKFLOW AUTOMATION & REPORTING
+# Run n8n local automation server (execute in a separate terminal window):
+# [NOTE: Expose n8n dashboard on http://localhost:5678]
+npx n8n start
+
+# Run all 4 E2E scenarios sequentially (Login -> Register -> Checkout -> Guest Checkout):
+# [NOTE: This runs the tests one-by-one and delivers a consolidated E2E report to your n8n webhook]
+npm run test-all
+
+
 # =========================================================================
 # HELPER UTILITIES
 # =========================================================================
