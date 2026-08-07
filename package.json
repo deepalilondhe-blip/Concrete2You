@@ -14,7 +14,8 @@
     "add-concrete": "node add-concrete.js",
     "test-add-concrete": "npx playwright test tests/add_concrete.spec.js",
     "checkout-guest": "node checkout-guest.js",
-    "test-checkout-guest": "npx playwright test tests/checkout_guest.spec.js"
+    "test-checkout-guest": "npx playwright test tests/checkout_guest.spec.js",
+    "test-all": "npx playwright test tests/login_direct.spec.js tests/register.spec.js tests/checkout.spec.js tests/checkout_guest.spec.js --workers=1"
   },
   "keywords": [],
   "author": "",
