@@ -39,7 +39,7 @@
     {
       "parameters": {
         "fromEmail": "qa-alerts@concrete2you.com",
-        "toEmail": "ilfas.mansuri+10@bytestechnolab.com",
+        "toEmail": "deepali.londhe@magnetoitsolutions.com",
         "subject": "=❌ Playwright E2E Tests Failed: {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}",
         "html": "=<h3>Playwright E2E Tests Failed!</h3>\n<p><b>Project:</b> {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}</p>\n<p><b>Passed:</b> {{$node[\"Webhook\"].json[\"body\"][\"passed\"]}} / {{$node[\"Webhook\"].json[\"body\"][\"totalTests\"]}} tests</p>\n<p style=\"color: red;\"><b>Failed:</b> {{$node[\"Webhook\"].json[\"body\"][\"failed\"]}} tests</p>\n<p><b>Duration:</b> {{($node[\"Webhook\"].json[\"body\"][\"durationMs\"] / 1000).toFixed(2)}}s</p>\n\n<h4>Error details:</h4>\n<ul>\n{{$node[\"Webhook\"].json[\"body\"][\"tests\"].filter(t => t.status === 'failed' || t.status === 'timedout').map(t => '<li><b>' + t.title + '</b> (' + t.file + '): <pre>' + t.errorMessage + '</pre></li>').join('')}}\n</ul>",
         "options": {}
@@ -56,7 +56,7 @@
     {
       "parameters": {
         "fromEmail": "qa-alerts@concrete2you.com",
-        "toEmail": "ilfas.mansuri+10@bytestechnolab.com",
+        "toEmail": "deepali.londhe@magnetoitsolutions.com",
         "subject": "=✅ Playwright E2E Tests Passed: {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}",
         "html": "=<h3>Playwright E2E Tests Passed Successfully!</h3>\n<p><b>Project:</b> {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}</p>\n<p><b>Total Tests:</b> {{$node[\"Webhook\"].json[\"body\"][\"totalTests\"]}} passed</p>\n<p><b>Duration:</b> {{($node[\"Webhook\"].json[\"body\"][\"durationMs\"] / 1000).toFixed(2)}}s</p>",
         "options": {}
