@@ -1,0 +1,106 @@
+{
+  "name": "Playwright Test Results Webhook Handler",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "playwright-tests-webhook",
+        "options": {}
+      },
+      "id": "1e86a512-efb7-4b72-882b-5b5832a265cf",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"body\"][\"runStatus\"]}}",
+              "value2": "failed"
+            }
+          ]
+        }
+      },
+      "id": "e67493a3-a720-4e31-897b-cf10be87ac36",
+      "name": "If Test Failed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        470,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "chatConnector": "slack",
+        "channel": "general",
+        "text": "=:red_circle: *Playwright E2E Tests Failed!* \n*Project:* {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}\n*Passed:* {{$node[\"Webhook\"].json[\"body\"][\"passed\"]}} / {{$node[\"Webhook\"].json[\"body\"][\"totalTests\"]}} tests\n*Failed:* {{$node[\"Webhook\"].json[\"body\"][\"failed\"]}} tests\n*Duration:* {{($node[\"Webhook\"].json[\"body\"][\"durationMs\"] / 1000).toFixed(2)}}s\n\n*Error details:* \n{{$node[\"Webhook\"].json[\"body\"][\"tests\"].filter(t => t.status === 'failed' || t.status === 'timedout').map(t => '• ' + t.title + ': ' + t.errorMessage).join('\\n')}}",
+        "otherOptions": {}
+      },
+      "id": "f8a02a91-dbbb-4a11-bdc2-7b2c5836a9ef",
+      "name": "Slack Alert on Failure",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        700,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "chatConnector": "slack",
+        "channel": "general",
+        "text": "=:white_check_mark: *Playwright E2E Tests Passed Successfully!* \n*Project:* {{$node[\"Webhook\"].json[\"body\"][\"projectName\"]}}\n*Total Tests:* {{$node[\"Webhook\"].json[\"body\"][\"totalTests\"]}} passed\n*Duration:* {{($node[\"Webhook\"].json[\"body\"][\"durationMs\"] / 1000).toFixed(2)}}s",
+        "otherOptions": {}
+      },
+      "id": "a9a83b12-ca21-42ab-bcf1-83cbe82e17ea",
+      "name": "Slack Alert on Success",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [
+        700,
+        340
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If Test Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Test Failed": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert on Failure",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack Alert on Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": 1
+}
